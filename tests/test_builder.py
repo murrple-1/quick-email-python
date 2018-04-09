@@ -1,7 +1,8 @@
 import unittest
 
+from quick_email import builder
 
-class TestPasswordHash(unittest.TestCase):
+class TestBuilder(unittest.TestCase):
     pass
 
 if __name__ == '__main__':
