@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='send-email-python',
+    name='quick-email',
     version='0.1.0',
     description='Quick-and-Dirty Email Sender',
     long_description=long_description,

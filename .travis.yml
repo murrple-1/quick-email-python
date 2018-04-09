@@ -8,6 +8,6 @@ cache: pip
 install:
   - pip install -r requirements.txt
 script:
-  - coverage run --source=send_email -m unittest discover tests
+  - coverage run --source=quick_email -m unittest discover tests
 after_script:
   - coveralls
