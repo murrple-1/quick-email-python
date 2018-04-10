@@ -23,8 +23,24 @@ class TestBuilder(unittest.TestCase):
         msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text')
         self.assertIsNotNone(msg)
 
-    def test_from_tuple(self):
-        msg = builder.build_msg(('Test', 'test@test.com'), u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text')
+    def test_cc(self):
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_cc=u'Example <example@example.com>', plain_text=u'Some Text')
+        self.assertIsNotNone(msg)
+
+    def test_cc(self):
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_bcc=u'Example <example@example.com>', plain_text=u'Some Text')
+        self.assertIsNotNone(msg)
+
+    def test_html_text(self):
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', html_text=u'<b>Some Bold Text</b>')
+        self.assertIsNotNone(msg)
+
+    def test_both_texts(self):
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text', html_text=u'<b>Some Bold Text</b>')
+        self.assertIsNotNone(msg)
+
+    def test_multi_recipients(self):
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', send_cc=u'Example2 <example2@example.com>', send_bcc=u'Example3 <example3@example.com>', plain_text=u'Some Text')
         self.assertIsNotNone(msg)
 
 
