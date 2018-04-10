@@ -46,7 +46,7 @@ class PostShift:
                 'action': 'new',
                 'type': 'json',
             }, headers={
-                'X=Mashape-Key': MASHAPE_KEY,
+                'X-Mashape-Key': MASHAPE_KEY,
                 'Accept': 'application/json',
             })
 
@@ -63,7 +63,7 @@ class PostShift:
             'key': email_key,
             'type': 'json',
         }, headers={
-            'X=Mashape-Key': MASHAPE_KEY,
+            'X-Mashape-Key': MASHAPE_KEY,
             'Accept': 'application/json',
         })
 
@@ -80,7 +80,7 @@ class PostShift:
             'key': email_key,
             'type': 'json',
         }, headers={
-            'X=Mashape-Key': MASHAPE_KEY,
+            'X-Mashape-Key': MASHAPE_KEY,
             'Accept': 'application/json',
         })
 
