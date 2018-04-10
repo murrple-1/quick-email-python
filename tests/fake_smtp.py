@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# via https://gist.github.com/muffinresearch/ec326ffd658d26e41222
+
 import os
 import smtpd
 import asyncore
