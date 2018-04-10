@@ -39,13 +39,13 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
         if isinstance(plain_text, six.text_type):
             text_msg.attach(MIMEText(plain_text, u'plain', u'utf-8'))
         else:
-            text_msg.attach(MIMEText(plain_text.decode('utf-8'), u'plain'))
+            text_msg.attach(MIMEText(plain_text.decode(), u'plain'))
 
     if html_text:
         if isinstance(html_text, six.text_type):
             text_msg.attach(MIMEText(html_text, u'html', u'utf-8'))
         else:
-            text_msg.attach(MIMEText(html_text.decode('utf-8'), u'html'))
+            text_msg.attach(MIMEText(html_text.decode(), u'html'))
 
     msg.attach(text_msg)
 
@@ -59,7 +59,7 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
 
             part = None
             if main_type == u'text':
-                part = MIMEText(attachment.bytes, sub_type)
+                part = MIMEText(attachment.bytes.decode(), sub_type)
             elif main_type == u'image':
                 part = MIMEImage(attachment.bytes, sub_type)
             elif main_type == u'audio':
@@ -73,7 +73,7 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
             msg.attach(part)
 
     if inline_attachment_dict is not None:
-        for content_id, attachment in inline_attachment_dict.iteritems():
+        for content_id, attachment in six.iteritems(inline_attachment_dict):
             type, encoding = mimetypes.guess_type(attachment.filename)
             if type is None or encoding is not None:
                 type = u'application/octet-stream'

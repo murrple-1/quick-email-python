@@ -61,8 +61,44 @@ class TestBuilder(unittest.TestCase):
         with open('tests/test_files/1x1.gif', 'rb') as f:
             gif_data = f.read()
 
-        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text', attachment_list=[Attachment(u'1x1.gif', gif_data)])
+        text_data = None
+        with open('tests/test_files/text.txt', 'rb') as f:
+            text_data = f.read()
+
+        audio_data = None
+        with open('tests/test_files/drip.mp3', 'rb') as f:
+            audio_data = f.read()
+
+        arbitary_data = None
+        with open('tests/test_files/data', 'rb') as f:
+            arbitary_data = f.read()
+
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text', attachment_list=[
+            Attachment(u'1x1.gif', gif_data),
+            Attachment(u'text.txt', text_data),
+            Attachment(u'drip.mp3', audio_data),
+            Attachment(u'data', arbitary_data)])
         self.assertIsNotNone(msg)
+
+    def test_inline_attachment_list(self):
+        gif_data = None
+        with open('tests/test_files/1x1.gif', 'rb') as f:
+            gif_data = f.read()
+
+        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text', inline_attachment_dict={
+            'content_id_1': Attachment(u'1x1.gif', gif_data),
+            })
+        self.assertIsNotNone(msg)
+
+    def test_inline_attachment_list_error(self):
+        arbitary_data = None
+        with open('tests/test_files/data', 'rb') as f:
+            arbitary_data = f.read()
+
+        with self.assertRaises(RuntimeError):
+            builder.build_msg(u'Test <test@test.com>', u'The Subject', send_to=u'Example <example@example.com>', plain_text=u'Some Text', inline_attachment_dict={
+                'content_id_1': Attachment(u'data', arbitary_data),
+                })
 
 
 if __name__ == u'__main__':
