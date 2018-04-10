@@ -15,49 +15,49 @@ class Attachment(object):
         self.bytes = bytes
 
 def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, plain_text=None, html_text=None, attachment_list=None, inline_attachment_dict=None):
-    assert send_to or send_cc or send_bcc, 'At least one of send_to, send_cc, or send_bcc must exist'
-    assert plain_text or html_text, 'At least one of plain_text or html_text must exist'
+    assert send_to or send_cc or send_bcc, u'At least one of send_to, send_cc, or send_bcc must exist'
+    assert plain_text or html_text, u'At least one of plain_text or html_text must exist'
 
-    msg = MIMEMultipart('mixed')
+    msg = MIMEMultipart(u'mixed')
 
-    msg['Subject'] = subject
+    msg[u'Subject'] = subject
 
     if isinstance(send_from, six.string_types):
-        msg['From'] = send_from
+        msg[u'From'] = send_from
     else:
-        msg['From'] = '"{0}" <{1}>'.format(send_from[0], send_from[1])
+        msg[u'From'] = '"{0}" <{1}>'.format(send_from[0], send_from[1])
 
     if send_to:
         if isinstance(send_to, six.string_types):
-            msg['To'] = send_to
+            msg[u'To'] = send_to
         else:
-            msg['To'] = COMMASPACE.join(send_to)
+            msg[u'To'] = COMMASPACE.join(send_to)
 
     if send_cc:
         if isinstance(send_cc, six.string_types):
-            msg['CC'] = send_cc
+            msg[u'CC'] = send_cc
         else:
-            msg['CC'] = COMMASPACE.join(send_cc)
+            msg[u'CC'] = COMMASPACE.join(send_cc)
 
     if send_bcc:
         if isinstance(send_bcc, six.string_types):
-            msg['BCC'] = send_bcc
+            msg[u'BCC'] = send_bcc
         else:
-            msg['BCC'] = COMMASPACE.join(send_bcc)
+            msg[u'BCC'] = COMMASPACE.join(send_bcc)
 
-    text_msg = MIMEMultipart('alternative')
+    text_msg = MIMEMultipart(u'alternative')
 
     if plain_text:
         if isinstance(plain_text, six.text_type):
-            text_msg.attach(MIMEText(plain_text, 'plain', 'utf-8'))
+            text_msg.attach(MIMEText(plain_text, u'plain', u'utf-8'))
         else:
-            text_msg.attach(MIMEText(plain_text, 'plain'))
+            text_msg.attach(MIMEText(plain_text, u'plain'))
 
     if html_text:
         if isinstance(html_text, six.text_type):
-            text_msg.attach(MIMEText(html_text, 'html', 'utf-8'))
+            text_msg.attach(MIMEText(html_text, u'html', u'utf-8'))
         else:
-            text_msg.attach(MIMEText(html_text, 'html'))
+            text_msg.attach(MIMEText(html_text, u'html'))
 
     msg.attach(text_msg)
 
@@ -65,42 +65,42 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
         for attachment in attachment_list:
             type, encoding = mimetypes.guess_type(attachment.filename)
             if type is None or encoding is not None:
-                type = 'application/octet-stream'
+                type = u'application/octet-stream'
 
-            main_type, sub_type = type.split('/', 1)
+            main_type, sub_type = type.split(u'/', 1)
 
             part = None
-            if main_type == 'text':
+            if main_type == u'text':
                 part = MIMEText(attachment.bytes, sub_type)
-            elif main_type == 'image':
+            elif main_type == u'image':
                 part = MIMEImage(attachment.bytes, sub_type)
-            elif main_type == 'audio':
+            elif main_type == u'audio':
                 part = MIMEAudio(attachment.bytes, sub_type)
             else:
                 part = MIMEBase(main_type, sub_type)
                 part.set_payload(attachment.bytes)
                 encoders.encode_base64(part)
 
-            part.add_header('Content-Disposition', 'attachment', filename=attachment.filename)
+            part.add_header(u'Content-Disposition', u'attachment', filename=attachment.filename)
             msg.attach(part)
 
     if inline_attachment_dict is not None:
         for content_id, attachment in inline_attachment_dict.iteritems():
             type, encoding = mimetypes.guess_type(attachment.filename)
             if type is None or encoding is not None:
-                type = 'application/octet-stream'
+                type = u'application/octet-stream'
 
             main_type, sub_type = type.split('/', 1)
 
             part = None
-            if main_type == 'image':
+            if main_type == u'image':
                 part = MIMEImage(attachment.bytes, sub_type)
             else:
-                raise RuntimeError('inline attachment must be an \'image\'')
+                raise RuntimeError(u'inline attachment must be an \'image\'')
 
-            part.add_header('Content-Disposition', 'inline', filename=attachment.filename)
-            part.add_header('Content-ID', '<{content_id}>'.format(content_id=content_id))
-            part.add_header('X-Attachment-Id', content_id)
+            part.add_header(u'Content-Disposition', u'inline', filename=attachment.filename)
+            part.add_header(u'Content-ID', u'<{content_id}>'.format(content_id=content_id))
+            part.add_header(u'X-Attachment-Id', content_id)
             msg.attach(part)
 
     return msg

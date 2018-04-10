@@ -14,8 +14,8 @@ class FakeSMTPServer(smtpd.SMTPServer):
     def process_message(*args, **kwargs):
         pass
 
-if __name__ == '__main__':
-    smtp_server = FakeSMTPServer(('localhost', SMTP_PORT), None)
+if __name__ == u'__main__':
+    smtp_server = FakeSMTPServer((u'localhost', SMTP_PORT), None)
     try:
         asyncore.loop()
     except KeyboardInterrupt:
