@@ -1,4 +1,5 @@
 import mimetypes
+import six
 
 from email import encoders
 from email.mime.audio import MIMEAudio
@@ -19,7 +20,7 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
 
     msg = MIMEMultipart('mixed')
 
-    if isinstance(send_from, basestring):
+    if isinstance(send_from, six.string_types):
         msg['From'] = send_from
     else:
         msg['From'] = '"{0}" <{1}>'.format(send_from[0], send_from[1])
@@ -27,7 +28,7 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
     send_to_all = []
 
     if send_to:
-        if isinstance(send_to, basestring):
+        if isinstance(send_to, six.string_types):
             msg['To'] = send_to
             send_to_all.append(send_to)
         else:
@@ -35,7 +36,7 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
             send_to_all.extend(send_to)
 
     if send_cc:
-        if isinstance(send_cc, basestring):
+        if isinstance(send_cc, six.string_types):
             msg['CC'] = send_cc
             send_to_all.append(send_cc)
         else:
@@ -43,7 +44,7 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
             send_to_all.extend(send_cc)
 
     if send_bcc:
-        if isinstance(send_bcc, basestring):
+        if isinstance(send_bcc, six.string_types):
             msg['BCC'] = send_bcc
             send_to_all.append(send_bcc)
         else:
@@ -55,13 +56,13 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
     text_msg = MIMEMultipart('alternative')
 
     if plain_text:
-        if isinstance(plain_text, unicode):
+        if isinstance(plain_text, six.text_type):
             text_msg.attach(MIMEText(plain_text, 'plain', 'utf-8'))
         else:
             text_msg.attach(MIMEText(plain_text, 'plain'))
 
     if html_text:
-        if isinstance(html_text, unicode):
+        if isinstance(html_text, six.text_type):
             text_msg.attach(MIMEText(html_text, 'html', 'utf-8'))
         else:
             text_msg.attach(MIMEText(html_text, 'html'))
