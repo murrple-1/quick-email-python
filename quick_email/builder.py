@@ -39,13 +39,13 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
         if isinstance(plain_text, six.text_type):
             text_msg.attach(MIMEText(plain_text, u'plain', u'utf-8'))
         else:
-            text_msg.attach(MIMEText(plain_text, u'plain'))
+            text_msg.attach(MIMEText(plain_text.decode('utf-8'), u'plain'))
 
     if html_text:
         if isinstance(html_text, six.text_type):
             text_msg.attach(MIMEText(html_text, u'html', u'utf-8'))
         else:
-            text_msg.attach(MIMEText(html_text, u'html'))
+            text_msg.attach(MIMEText(html_text.decode('utf-8'), u'html'))
 
     msg.attach(text_msg)
 
