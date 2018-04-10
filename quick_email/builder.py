@@ -15,9 +15,6 @@ class Attachment(object):
         self.bytes = bytes
 
 def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_text, attachment_list=None, inline_attachment_dict=None):
-    assert send_to or send_cc or send_bcc, 'At least one of send_to, send_cc, or send_bcc must exist'
-    assert plain_text or html_text, 'At least one of plain_text or html_text must exist'
-
     msg = MIMEMultipart('mixed')
 
     if isinstance(send_from, six.string_types):
@@ -25,31 +22,23 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
     else:
         msg['From'] = '"{0}" <{1}>'.format(send_from[0], send_from[1])
 
-    send_to_all = []
-
     if send_to:
         if isinstance(send_to, six.string_types):
             msg['To'] = send_to
-            send_to_all.append(send_to)
         else:
             msg['To'] = COMMASPACE.join(send_to)
-            send_to_all.extend(send_to)
 
     if send_cc:
         if isinstance(send_cc, six.string_types):
             msg['CC'] = send_cc
-            send_to_all.append(send_cc)
         else:
             msg['CC'] = COMMASPACE.join(send_cc)
-            send_to_all.extend(send_cc)
 
     if send_bcc:
         if isinstance(send_bcc, six.string_types):
             msg['BCC'] = send_bcc
-            send_to_all.append(send_bcc)
         else:
             msg['BCC'] = COMMASPACE.join(send_bcc)
-            send_to_all.extend(send_bcc)
 
     msg['Subject'] = subject
 
