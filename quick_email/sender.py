@@ -1,5 +1,7 @@
 import smtplib
 
+from email.utils import COMMASPACE
+
 def send_msg(host, port, username, password, is_tls, send_from, msg):
     smtp = smtplib.SMTP(host, port)
     if is_tls:

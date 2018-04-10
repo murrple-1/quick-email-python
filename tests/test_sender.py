@@ -3,6 +3,8 @@ import os
 import sys
 import logging
 import pprint
+import time
+import random
 
 import requests
 
@@ -40,8 +42,14 @@ def logger():
 
 class PostShift:
     ENDPOINT_URL = 'https://reuleaux-post-shift-v1.p.mashape.com/api.php'
-    @staticmethod
-    def create():
+
+    @classmethod
+    def sleep(cls):
+        seconds = (random.random() * 10.0) + 1.0
+        time.sleep(seconds)
+
+    @classmethod
+    def create(cls):
         r = requests.get(PostShift.ENDPOINT_URL, params={
                 'action': 'new',
                 'type': 'json',
@@ -50,14 +58,16 @@ class PostShift:
                 'Accept': 'application/json',
             })
 
+        cls.sleep()
+
         _json = r.json()
 
         logger().debug(pprint.pformat(_json))
 
         return _json
 
-    @staticmethod
-    def get_list(email_key):
+    @classmethod
+    def get_list(cls, email_key):
         r = requests.get(PostShift.ENDPOINT_URL, params={
             'action': 'getlist',
             'key': email_key,
@@ -67,14 +77,16 @@ class PostShift:
             'Accept': 'application/json',
         })
 
+        cls.sleep()
+
         _json = r.json()
 
         logger().debug(pprint.pformat(_json))
 
         return _json
 
-    @staticmethod
-    def clear(email_key):
+    @classmethod
+    def clear(cls, email_key):
         r = requests.get(PostShift.ENDPOINT_URL, params={
             'action': 'clear',
             'key': email_key,
@@ -83,6 +95,8 @@ class PostShift:
             'X-Mashape-Key': MASHAPE_KEY,
             'Accept': 'application/json',
         })
+
+        cls.sleep()
 
         _json = r.json()
 
