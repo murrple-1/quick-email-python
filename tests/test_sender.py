@@ -42,10 +42,12 @@ def logger():
 
 class PostShift:
     ENDPOINT_URL = 'https://reuleaux-post-shift-v1.p.mashape.com/api.php'
+    MIN_SLEEP_SECONDS = 5.0
+    MAX_SLEEP_SECONDS = 15.0
 
     @classmethod
     def sleep(cls):
-        seconds = (random.random() * 10.0) + 1.0
+        seconds = (random.random() * (cls.MAX_SLEEP_SECONDS - cls.MIN_SLEEP_SECONDS)) + cls.MIN_SLEEP_SECONDS
         time.sleep(seconds)
 
     @classmethod
@@ -105,6 +107,8 @@ class PostShift:
 class TestSender(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        PostShift.sleep()
+
         _json = PostShift.create()
 
         cls.test_email = _json['email']
@@ -118,9 +122,13 @@ class TestSender(unittest.TestCase):
         msg = builder.build_msg(SMTP_SENDER, TestSender.test_email, None, None, 'The Subject', 'Some Text', '<b>Some Bold Text</b>', attachment_list=None, inline_attachment_dict=None)
         sender.send_msg(SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_IS_TLS, SMTP_SENDER, msg)
 
+        # wait for email to arrive
+        time.sleep(30.0)
+
         _json = PostShift.get_list(TestSender.postshift_key)
 
-        self.assertEquals(len(_json), 1)
+        self.assertIsInstance(_json, list)
+        self.assertEqual(len(_json), 1)
 
 
 if __name__ == '__main__':
