@@ -14,8 +14,13 @@ class Attachment(object):
         self.filename = filename
         self.bytes = bytes
 
-def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_text, attachment_list=None, inline_attachment_dict=None):
+def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, plain_text=None, html_text=None, attachment_list=None, inline_attachment_dict=None):
+    assert send_to or send_cc or send_bcc, 'At least one of send_to, send_cc, or send_bcc must exist'
+    assert plain_text or html_text, 'At least one of plain_text or html_text must exist'
+
     msg = MIMEMultipart('mixed')
+
+    msg['Subject'] = subject
 
     if isinstance(send_from, six.string_types):
         msg['From'] = send_from
@@ -39,8 +44,6 @@ def build_msg(send_from, send_to, send_cc, send_bcc, subject, plain_text, html_t
             msg['BCC'] = send_bcc
         else:
             msg['BCC'] = COMMASPACE.join(send_bcc)
-
-    msg['Subject'] = subject
 
     text_msg = MIMEMultipart('alternative')
 

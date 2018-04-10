@@ -12,7 +12,7 @@ SMTP_IS_TLS = os.environ.get(u'SMTP_IS_TLS') == u'true'
 
 class TestQuickEmail(unittest.TestCase):
     def test_send_email(self):
-        send_email(SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_IS_TLS, u'Example <example@example.com>', u'Test <test@test.com>', None, None, u'The Subject', u'Some Text', u'<b>Some Bold Text</b>', attachment_list=None, inline_attachment_dict=None)
+        send_email(SMTP_HOST, SMTP_PORT, u'Example <example@example.com>', u'The Subject', send_to=u'Test <test@test.com>', send_cc=None, send_bcc=None, plain_text=u'Some Text', html_text=u'<b>Some Bold Text</b>', attachment_list=None, inline_attachment_dict=None, username=SMTP_USER, password=SMTP_PASSWORD, is_tls=SMTP_IS_TLS)
 
 
 if __name__ == u'__main__':

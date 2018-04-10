@@ -2,7 +2,7 @@ import smtplib
 
 from email.utils import COMMASPACE
 
-def send_msg(host, port, username, password, is_tls, send_from, msg):
+def send_msg(msg, host, port, username=None, password=None, is_tls=False):
     smtp = smtplib.SMTP(host, port)
     if is_tls:
         smtp.starttls()
@@ -12,7 +12,7 @@ def send_msg(host, port, username, password, is_tls, send_from, msg):
 
     _all_recipients = all_recipients(msg)
 
-    smtp.sendmail(send_from, _all_recipients, msg.as_string())
+    smtp.sendmail(msg['From'], _all_recipients, msg.as_string())
     smtp.quit()
 
 
