@@ -22,28 +22,16 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
 
     msg[u'Subject'] = subject
 
-    if isinstance(send_from, six.string_types):
-        msg[u'From'] = send_from
-    else:
-        msg[u'From'] = '"{0}" <{1}>'.format(send_from[0], send_from[1])
+    msg[u'From'] = to_address_string(send_from)
 
     if send_to:
-        if isinstance(send_to, six.string_types):
-            msg[u'To'] = send_to
-        else:
-            msg[u'To'] = COMMASPACE.join(send_to)
+        msg[u'To'] = to_address_string_list(send_to)
 
     if send_cc:
-        if isinstance(send_cc, six.string_types):
-            msg[u'CC'] = send_cc
-        else:
-            msg[u'CC'] = COMMASPACE.join(send_cc)
+        msg[u'CC'] = to_address_string_list(send_cc)
 
     if send_bcc:
-        if isinstance(send_bcc, six.string_types):
-            msg[u'BCC'] = send_bcc
-        else:
-            msg[u'BCC'] = COMMASPACE.join(send_bcc)
+        msg[u'BCC'] = to_address_string_list(send_bcc)
 
     text_msg = MIMEMultipart(u'alternative')
 
@@ -104,3 +92,17 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
             msg.attach(part)
 
     return msg
+
+
+def to_address_string(address):
+    if isinstance(address, six.string_types):
+        return address
+    else:
+        return '"{0}" <{1}>'.format(address[0], address[1])
+
+
+def to_address_string_list(addresses):
+    if isinstance(addresses, (six.string_types, tuple)):
+        return to_address_string(addresses)
+    else:
+        return COMMASPACE.join(to_address_string(addr) for addr in addresses)
