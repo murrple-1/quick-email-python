@@ -4,7 +4,6 @@ import sys
 import logging
 import pprint
 import time
-import random
 
 import requests
 
@@ -42,13 +41,11 @@ def logger():
 
 class PostShift:
     ENDPOINT_URL = 'https://reuleaux-post-shift-v1.p.mashape.com/api.php'
-    MIN_SLEEP_SECONDS = 5.0
-    MAX_SLEEP_SECONDS = 15.0
+    SLEEP_SECONDS = 10.0
 
     @classmethod
     def sleep(cls):
-        seconds = (random.random() * (cls.MAX_SLEEP_SECONDS - cls.MIN_SLEEP_SECONDS)) + cls.MIN_SLEEP_SECONDS
-        time.sleep(seconds)
+        time.sleep(cls.SLEEP_SECONDS)
 
     @classmethod
     def create(cls):
