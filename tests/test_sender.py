@@ -1,5 +1,8 @@
 import unittest
 import os
+import sys
+import logging
+import pprint
 
 import requests
 
@@ -14,6 +17,27 @@ SMTP_SENDER = os.environ['SMTP_SENDER']
 
 MASHAPE_KEY = os.environ['MASHAPE_KEY']
 
+LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
+
+_logger = None
+def logger():
+    global _logger
+
+    if _logger is None:
+        _logger = logging.getLogger(__name__)
+        _logger.setLevel(logging.getLevelName(LOG_LEVEL))
+
+        stream_handler = logging.StreamHandler(sys.stdout)
+        stream_handler.setLevel(logging.DEBUG)
+        stream_handler.setFormatter(
+            logging.Formatter(
+                fmt='%(asctime)s (%(levelname)s): %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'))
+        _logger.addHandler(stream_handler)
+
+    return _logger
+
+
 class PostShift:
     ENDPOINT_URL = 'https://reuleaux-post-shift-v1.p.mashape.com/api.php'
     @staticmethod
@@ -27,6 +51,8 @@ class PostShift:
             })
 
         _json = r.json()
+
+        logger().debug(pprint.pformat(_json))
 
         return _json
 
@@ -43,11 +69,13 @@ class PostShift:
 
         _json = r.json()
 
+        logger().debug(pprint.pformat(_json))
+
         return _json
 
     @staticmethod
     def clear(email_key):
-        requests.get(PostShift.ENDPOINT_URL, params={
+        r = requests.get(PostShift.ENDPOINT_URL, params={
             'action': 'clear',
             'key': email_key,
             'type': 'json',
@@ -55,6 +83,10 @@ class PostShift:
             'X=Mashape-Key': MASHAPE_KEY,
             'Accept': 'application/json',
         })
+
+        _json = r.json()
+
+        logger().debug(pprint.pformat(_json))
 
 class TestSender(unittest.TestCase):
     @classmethod
