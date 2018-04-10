@@ -5,8 +5,8 @@ from quick_email import send_email
 
 SMTP_HOST = os.environ.get(u'SMTP_HOST', u'localhost')
 SMTP_PORT = int(os.environ.get(u'SMTP_PORT', u'25'))
-SMTP_USER = os.environ.get(u'SMTP_USER', u'testuser')
-SMTP_PASSWORD = os.environ.get(u'SMTP_PASSWORD', u'password')
+SMTP_USER = os.environ.get(u'SMTP_USER')
+SMTP_PASSWORD = os.environ.get(u'SMTP_PASSWORD')
 SMTP_IS_TLS = os.environ.get(u'SMTP_IS_TLS') == u'true'
 
 

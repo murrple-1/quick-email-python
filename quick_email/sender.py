@@ -6,7 +6,9 @@ def send_msg(host, port, username, password, is_tls, send_from, msg):
     smtp = smtplib.SMTP(host, port)
     if is_tls:
         smtp.starttls()
-    smtp.login(username, password)
+
+    if username and password:
+        smtp.login(username, password)
 
     _all_recipients = all_recipients(msg)
 
