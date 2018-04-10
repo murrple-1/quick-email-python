@@ -7,7 +7,7 @@ from email.mime.base import MIMEBase
 from email.mime.image import MIMEImage
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.utils import COMMASPACE
+from email.utils import COMMASPACE, parseaddr, formataddr
 
 class Attachment(object):
     def __init__(self, filename, bytes):
@@ -96,9 +96,9 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
 
 def to_address_string(address):
     if isinstance(address, six.string_types):
-        return address
+        return formataddr(parseaddr(address))
     else:
-        return '"{0}" <{1}>'.format(address[0], address[1])
+        return formataddr(address)
 
 
 def to_address_string_list(addresses):
