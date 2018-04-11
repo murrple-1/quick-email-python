@@ -29,7 +29,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    keywords='password hashing pbkdf2',
+    keywords='mail email smtp easy',
     packages=find_packages(exclude=['tests']),
     install_requires=['six'],
 )
