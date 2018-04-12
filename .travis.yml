@@ -12,7 +12,6 @@ before_install:
 install:
   - pipenv install --dev
 script:
-  - sudo ./tests/fake_smtp.py &
   - coverage run --source=quick_email -m unittest discover tests
 after_script:
   - coveralls
