@@ -7,8 +7,10 @@ python:
   - "3.5"
   - "3.6"
 cache: pip
+before_install:
+  - pip install pipenv
 install:
-  - pip install -r requirements.txt
+  - pipenv install --dev
 script:
   - sudo ./tests/fake_smtp.py &
   - coverage run --source=quick_email -m unittest discover tests
