@@ -8,5 +8,7 @@ name = "pypi"
 [dev-packages]
 coveralls = "*"
 aiosmtpd = {version = "*", python_version = ">= '3.5'"}
+# required by aiosmtpd, but fails if `python_version` < 3.4, so explicitly marked out
+atpublic = {version = "*", python_version = ">= '3.4'"}
 
 [requires]
