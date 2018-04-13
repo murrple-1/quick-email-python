@@ -2,12 +2,11 @@ import smtplib
 
 from email.utils import COMMASPACE
 
-def send_msg(msg, host, port, username=None, password=None, ssl=False):
-    smtp = None
-    if not ssl:
-        smtp = smtplib.SMTP(host, port)
-    else:
-        smtp = smtplib.SMTP_SSL(host, port)
+def send_msg(msg, host, port, username=None, password=None, require_starttls=False):
+    smtp = smtplib.SMTP(host, port)
+
+    if require_starttls:
+        smtp.starttls()
 
     if username and password:
         smtp.login(username, password)

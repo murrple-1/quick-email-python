@@ -21,7 +21,7 @@ def _smtp_server_func():
 
 
 _smtp_server_thead = None
-def smtp_server_thread():
+def smtp_server_start():
     global _smtp_server_thead
     if _smtp_server_thead is None:
         _smtp_server_thead = _thread.start_new_thread(_smtp_server_func, ())
