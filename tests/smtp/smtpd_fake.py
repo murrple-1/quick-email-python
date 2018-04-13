@@ -1,8 +1,10 @@
 import os
 import time
-from smtpd import SMTPServer
 import asyncore
+import ssl
 from six.moves import _thread
+
+from tests.smtp.smtpd import SMTPServer
 
 SMTP_PORT = int(os.environ.get(u'SMTP_PORT', u'8080'))
 
@@ -16,7 +18,11 @@ class FakeSMTPServer(SMTPServer):
 
 
 def _smtp_server_func():
-    smtp_server = FakeSMTPServer((u'localhost', SMTP_PORT), None)
+    ssl_context = ssl.create_default_context()
+    smtp_server = FakeSMTPServer((u'localhost', SMTP_PORT), ssl_ctx=ssl_context, starttls=True, auth={
+        'user': 'testuser',
+        'password': 'password',
+        })
     asyncore.loop()
 
 
