@@ -10,19 +10,15 @@ SMTP_PORT = int(os.environ.get(u'SMTP_PORT', u'8080'))
 
 
 class FakeSMTPServer(SMTPServer):
-    def __init__(*args, **kwargs):
-        SMTPServer.__init__(*args, **kwargs)
+    def __init__(self, localaddr, remoteaddr):
+        SMTPServer.__init__(self, localaddr, remoteaddr)
 
-    def process_message(*args, **kwargs):
+    def process_message(self, peer, mailfrom, rcpttos, data):
         pass
 
 
 def _smtp_server_func():
-    ssl_context = ssl.create_default_context()
-    smtp_server = FakeSMTPServer((u'localhost', SMTP_PORT), ssl_ctx=ssl_context, starttls=True, auth={
-        'user': 'testuser',
-        'password': 'password',
-        })
+    smtp_server = FakeSMTPServer((u'localhost', SMTP_PORT), None)
     asyncore.loop()
 
 
