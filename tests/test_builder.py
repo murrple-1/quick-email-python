@@ -41,7 +41,7 @@ class TestBuilder(unittest.TestCase):
                                 send_cc=u'Example <example@example.com>', plain_text=u'Some Text')
         self.assertIsNotNone(msg)
 
-    def test_cc(self):
+    def test_bcc(self):
         msg = builder.build_msg(u'Test <test@test.com>', u'The Subject',
                                 send_bcc=u'Example <example@example.com>', plain_text=u'Some Text')
         self.assertIsNotNone(msg)
@@ -64,11 +64,6 @@ class TestBuilder(unittest.TestCase):
     def test_plain_byte_text(self):
         msg = builder.build_msg(u'Test <test@test.com>', u'The Subject',
                                 send_to=u'Example <example@example.com>', plain_text=b'Some Text')
-        self.assertIsNotNone(msg)
-
-    def test_html_byte_text(self):
-        msg = builder.build_msg(u'Test <test@test.com>', u'The Subject',
-                                send_to=u'Example <example@example.com>', html_text=b'<b>Some Bold Text</b>')
         self.assertIsNotNone(msg)
 
     def test_html_byte_text(self):

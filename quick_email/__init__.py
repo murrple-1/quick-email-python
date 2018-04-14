@@ -7,3 +7,10 @@ def send_email(host, port, send_from, subject, send_to=None, send_cc=None, send_
                     html_text=html_text, attachment_list=attachment_list, inline_attachment_dict=inline_attachment_dict)
     send_msg(msg, host, port, username=username,
              password=password, require_starttls=require_starttls)
+
+__all__ = [
+    'build_msg',
+    'Attachment',
+    'send_msg',
+    'send_email',
+]
