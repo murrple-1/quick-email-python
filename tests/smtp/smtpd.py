@@ -3,7 +3,8 @@ import time
 import socket
 import asyncore
 import asynchat
-
+import ssl
+import base64
 
 __version__ = u'Python SMTP proxy version 0.2 - edit'
 
@@ -176,11 +177,63 @@ class SMTPChannel(asynchat.async_chat):
         self.set_terminator(b'\r\n.\r\n')
         self.push(b'354 End data with <CR><LF>.<CR><LF>')
 
+    # Extensions Start
+
+    def smtp_AUTH(self, arg):
+        auth = self.__server._auth
+        if isinstance(auth, dict) and u'user' in auth and u'password' in auth:
+            user = auth[u'user']
+            password = auth[u'password']
+
+            s = base64.stanard_b64encode(u'\0%s\0%s'.format(user, password).encode()).decode()
+
+            if arg == u'PLAIN {}'.format(s).encode():
+                self.push(b'235 Authentication successful')
+            else:
+                self.push(b'535 SMTP Authentication unsuccessful/Bad username or password')
+        else:
+            self.push(b'454 Temporary authentication failure')
+
+    def smtp_EHLO(self, arg):
+        if not arg:
+            self.push(b'501 Syntax: HELO hostname')
+        elif self.__greeting:
+            self.push(b'503 Duplicate HELO/EHLO')
+        else:
+            self.__greeting = arg
+            if isinstance(self.__conn, ssl.SSLSocket):
+                self.push(u'250 {}'.format(self.__fqdn).encode())
+            else:
+                self.push(u'250-{}'.format(self.__fqdn).encode())
+                self.push(b'250 STARTTLS')
+
+    def smtp_STARTTLS(self, arg):
+        if arg:
+            self.push(b'501 Syntax error (no parameters allowed)')
+        elif self.__server._starttls and not isinstance(self.__conn, ssl.SSLSocket):
+            self.push(b'220 Ready to start TLS')
+            self.__conn.settimeout(30)
+            self.__conn = self.__server._ssl_ctx.wrap_socket(self.__conn, server_side=True)
+            self.__conn.settimeout(None)
+            # re-init channel
+            asynchat.async_chat.__init__(self, self.__conn)
+            self.__line = []
+            self.__state = self.COMMAND
+            self.__greeting = 0
+            self.__mailfrom = None
+            self.__rcpttos = []
+            self.__data = ''
+        else:
+            self.push(b'454 TLS not available due to temporary reason')
+
 
 class SMTPServer(asyncore.dispatcher):
-    def __init__(self, localaddr, remoteaddr):
+    def __init__(self, localaddr, remoteaddr, ssl_ctx=None, starttls=True, auth=None):
         self._localaddr = localaddr
         self._remoteaddr = remoteaddr
+        self._ssl_ctx = ssl_ctx
+        self._starttls = starttls
+        self._auth = auth
         asyncore.dispatcher.__init__(self)
         try:
             self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -197,6 +250,8 @@ class SMTPServer(asyncore.dispatcher):
         pair = self.accept()
         if pair is not None:
             conn, addr = pair
+            if self._ssl_ctx and not self._starttls:
+                conn = self._ssl_ctx.wrap_socket(conn, server_side=True)
             channel = SMTPChannel(self, conn, addr)
 
     def process_message(self, peer, mailfrom, rcpttos, data):

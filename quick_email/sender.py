@@ -8,8 +8,8 @@ def send_msg(msg, host, port, username=None, password=None, require_starttls=Fal
     if require_starttls:
         smtp.starttls()
 
-    if username and password:
-        smtp.login(username, password)
+        if username and password:
+            smtp.login(username, password)
 
     _all_recipients = all_recipients(msg)
 
