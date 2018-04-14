@@ -9,10 +9,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import COMMASPACE, parseaddr, formataddr
 
+
 class Attachment(object):
     def __init__(self, filename, bytes):
         self.filename = filename
         self.bytes = bytes
+
 
 def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, plain_text=None, html_text=None, attachment_list=None, inline_attachment_dict=None):
     assert send_to or send_cc or send_bcc, u'At least one of send_to, send_cc, or send_bcc must exist'
@@ -69,7 +71,8 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
                 part.set_payload(attachment.bytes)
                 encoders.encode_base64(part)
 
-            part.add_header(u'Content-Disposition', u'attachment', filename=attachment.filename)
+            part.add_header(u'Content-Disposition',
+                            u'attachment', filename=attachment.filename)
             msg.attach(part)
 
     if inline_attachment_dict is not None:
@@ -86,8 +89,10 @@ def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, pla
             else:
                 raise RuntimeError(u'inline attachment must be an \'image\'')
 
-            part.add_header(u'Content-Disposition', u'inline', filename=attachment.filename)
-            part.add_header(u'Content-ID', u'<{content_id}>'.format(content_id=content_id))
+            part.add_header(u'Content-Disposition', u'inline',
+                            filename=attachment.filename)
+            part.add_header(
+                u'Content-ID', u'<{content_id}>'.format(content_id=content_id))
             part.add_header(u'X-Attachment-Id', content_id)
             msg.attach(part)
 

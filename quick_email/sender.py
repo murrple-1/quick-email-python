@@ -2,6 +2,7 @@ import smtplib
 
 from email.utils import COMMASPACE
 
+
 def send_msg(msg, host, port, username=None, password=None, require_starttls=False):
     smtp = smtplib.SMTP(host, port)
 
