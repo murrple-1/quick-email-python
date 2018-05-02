@@ -1,7 +1,7 @@
 # quick-email-python
 Quick-and-Dirty Email Sender
 
-[![Build Status](https://travis-ci.org/murrple-1/quick-email-python.svg?branch=master)](https://travis-ci.org/murrple-1/quick-email-python) [![Coverage Status](https://coveralls.io/repos/github/murrple-1/quick-email-python/badge.svg?branch=master)](https://coveralls.io/github/murrple-1/quick-email-python?branch=master)
+[![Build Status](https://travis-ci.org/murrple-1/quick-email-python.svg?branch=master)](https://travis-ci.org/murrple-1/quick-email-python) [![Coverage Status](https://coveralls.io/repos/github/murrple-1/quick-email-python/badge.svg?branch=master)](https://coveralls.io/github/murrple-1/quick-email-python?branch=master) [![PyPI version](https://badge.fury.io/py/quick-email.svg)](https://badge.fury.io/py/quick-email)
 
 Emails are ubiquitous, but not super-straightforward from a programming standpoint. The standards in use (SMTP, MIME) are powerful, but complex if you want to do anything nicer than a simple plain-test email. This library was built and iterated upon for my personal projects, and it might just help you too.
 
