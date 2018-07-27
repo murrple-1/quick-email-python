@@ -9,11 +9,11 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='quick-email',
-    version='0.4.2',
+    version='0.4.3',
     description='Quick-and-Dirty Email Sender',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/murrple-1/send-email-python',
+    url='https://github.com/murrple-1/quick-email-python',
     author='Murray Christopherson',
     author_email='murraychristopherson@gmail.com',
     classifiers=[
