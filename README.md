@@ -5,7 +5,7 @@ Quick-and-Dirty Email Sender
 
 Emails are ubiquitous, but not super-straightforward from a programming standpoint. The standards in use (SMTP, MIME) are powerful, but complex if you want to do anything nicer than a simple plain-test email. This library was built and iterated upon for my personal projects, and it might just help you too.
 
-Supports both Python `>=v2.7` and `>=3.3`.
+Supports both Python `>=v2.7` and `>=3.4`.
 
 # Installation
 
