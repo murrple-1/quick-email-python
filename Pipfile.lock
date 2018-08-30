@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7d5a8c17d32688e07982b92be63d37cbcde4b9ee94120ceef03c1ac5374189cf"
+            "sha256": "1f7dbba5378f8c66fe665f6e15ce8a0dfb27c5206cc192041c0c9640499fec82"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -15,22 +15,6 @@
     },
     "default": {},
     "develop": {
-        "aiosmtpd": {
-            "hashes": [
-                "sha256:8ab8cd2bb2459f8eb04b835bf1f0dbb8fe590140080b2b3b7793a0992270a557"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.5'",
-            "version": "==1.1"
-        },
-        "atpublic": {
-            "hashes": [
-                "sha256:7dca670499e9a9d3aae5a8914bc799475fe24be3bcd29c8129642dda665f7a44"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.4'",
-            "version": "==1.0"
-        },
         "certifi": {
             "hashes": [
                 "sha256:376690d6f16d32f9d1fe8932551d80b23e9d393a8578c5633a2ed39a64861638",
