@@ -11,9 +11,9 @@ from email.utils import COMMASPACE, parseaddr, formataddr
 
 
 class Attachment(object):
-    def __init__(self, filename, bytes):
+    def __init__(self, filename, bytes_):
         self.filename = filename
-        self.bytes = bytes
+        self.bytes = bytes_
 
 
 def build_msg(send_from, subject, send_to=None, send_cc=None, send_bcc=None, plain_text=None, html_text=None, attachment_list=None, inline_attachment_dict=None):
