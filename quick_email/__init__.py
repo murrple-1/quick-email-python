@@ -8,6 +8,7 @@ def send_email(host, port, send_from, subject, send_to=None, send_cc=None, send_
     send_msg(msg, host, port, username=username,
              password=password, require_starttls=require_starttls)
 
+
 __all__ = [
     'build_msg',
     'Attachment',
