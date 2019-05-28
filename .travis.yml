@@ -6,7 +6,8 @@ python:
   - "3.6"
 cache: pip
 before_install:
-  - pip install pipenv
+  - pip install -U pipenv
+  - pipenv --version
 install:
   - pipenv install --dev
 script:
