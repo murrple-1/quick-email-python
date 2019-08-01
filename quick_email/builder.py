@@ -107,7 +107,7 @@ def to_address_string(address):
 
 
 def to_address_string_list(addresses):
-    if isinstance(addresses, (six.string_types, tuple)):
+    if isinstance(addresses, six.string_types) or type(addresses) is tuple:
         return to_address_string(addresses)
     else:
         return COMMASPACE.join(to_address_string(addr) for addr in addresses)
