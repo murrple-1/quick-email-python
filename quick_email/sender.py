@@ -3,8 +3,12 @@ import smtplib
 from email.utils import COMMASPACE
 
 
-def send_msg(msg, host, port, username=None, password=None, require_starttls=False):
-    smtp = smtplib.SMTP(host, port)
+def send_msg(msg, host, port, username=None, password=None, timeout=None, require_starttls=False):
+    smtp_kwargs = {}
+    if timeout is not None:
+        smtp_kwargs['timeout'] = timeout
+
+    smtp = smtplib.SMTP(host, port, **smtp_kwargs)
 
     if require_starttls:
         smtp.starttls()

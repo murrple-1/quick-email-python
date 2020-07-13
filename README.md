@@ -15,7 +15,7 @@ Supports both Python `>=v2.7` and `>=3.4`.
 
 ## Send Email
 
-### `quick_email.send_email(host, port, send_from, subject[, send_to[, send_cc[, send_bcc[, plain_text[, html_text[, attachment_list[, inline_attachment_dict[, username[, password[, require_starttls]]]]]]]]]])`
+### `quick_email.send_email(host, port, send_from, subject[, send_to[, send_cc[, send_bcc[, plain_text[, html_text[, attachment_list[, inline_attachment_dict[, username[, password[, timeout[, require_starttls]]]]]]]]]]])`
 My super-useful utility function. Creates and sends an email in one fell swoop. All parameters are passed to the functions below.
 
 ## Create Message
@@ -44,7 +44,7 @@ Email addresses can be a string (either of form `example@example.com` or `Exampl
 
 ## Send Message
 
-### `quick_email.send_msg(msg, host, port[, username[, password[, require_starttls]]])`
+### `quick_email.send_msg(msg, host, port[, username[, password[, timeout[, require_starttls]]]])`
 Sends a `email.message.Message` to its recipients.
 
 `msg` is the `email.message.Message`, which you may have built using `quick_email.build_msg`, or handcrafted youself.
@@ -56,5 +56,7 @@ Sends a `email.message.Message` to its recipients.
 `username` is the username of a username/password combo used to authenticate. Leave it off if your service is unauthenticated.
 
 `password` is the password of a username/password combo used to authenticate. Leave it off if your service is unauthenticated.
+
+`timeout` is the timeout interval (in seconds). If not specified, the global default timeout setting will be used.
 
 `require_starttls` is a flag whether to request the message sending be encrypted. Defaults to `False`, but turn it on if you can.
