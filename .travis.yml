@@ -7,7 +7,7 @@ before_install:
   - pip install -U pipenv
   - pipenv --version
 install:
-  - pipenv install --dev
+  - pipenv sync --dev
 script:
   - pipenv run coverage run --source=quick_email -m unittest discover tests
 after_script:
